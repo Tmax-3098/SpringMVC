@@ -26,6 +26,8 @@ public class DriverEntity {
 
     private Integer age;
 
+    private String role;
+
     private LocalDate dateOfJoining;
 
     private Boolean isActive;

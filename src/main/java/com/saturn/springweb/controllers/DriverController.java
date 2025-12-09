@@ -2,6 +2,7 @@ package com.saturn.springweb.controllers;
 
 import com.saturn.springweb.dto.DriverDto;
 import com.saturn.springweb.services.DriverService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class DriverController {
     }
 
     @PostMapping(path="/createDriver")
-    public DriverDto saveDriver(@RequestBody DriverDto dto){
+    public DriverDto saveDriver(@Valid @RequestBody DriverDto dto){
         return driverService.saveDriver(dto);
     }
 
@@ -33,7 +34,7 @@ public class DriverController {
     }
 
     @PutMapping(path = "driver/{driverId}")
-    public DriverDto updateDriver(@RequestBody DriverDto dto, @PathVariable Long driverId){
+    public DriverDto updateDriver(@Valid @RequestBody DriverDto dto, @PathVariable Long driverId){
         return driverService.updateDriver(dto, driverId);
     }
 
