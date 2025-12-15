@@ -2,6 +2,7 @@ package com.saturn.springweb.services;
 
 import com.saturn.springweb.dto.DriverDto;
 import com.saturn.springweb.entities.DriverEntity;
+import com.saturn.springweb.exceptions.ResourceNotFoundException;
 import com.saturn.springweb.repositories.DriverRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.ReflectionUtils;
@@ -24,7 +25,7 @@ public class DriverService {
     }
 
     public DriverDto getDriverById(Long id){
-        DriverEntity driver = driverRepo.findById(id).orElseThrow(() -> new RuntimeException("Driver does not exists"));
+        DriverEntity driver = driverRepo.findById(id).orElseThrow(() -> new NoSuchElementException("Driver does not exists "+id));
         return mapper.map(driver, DriverDto.class);
     }
 
@@ -45,7 +46,7 @@ public class DriverService {
     }
 
     public DriverDto updatePartial(Map<String, Object> updates, Long id) {
-        DriverEntity driver = driverRepo.findById(id).orElseThrow(() -> new RuntimeException("driver does not exists"));
+        DriverEntity driver = driverRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("resource does not exists "+id));
         updates.forEach((key, value) -> {
             Field field = ReflectionUtils.getRequiredField(DriverEntity.class, key);
             field.setAccessible(true);
@@ -58,6 +59,6 @@ public class DriverService {
         if(driverRepo.existsById(id)){
             driverRepo.deleteById(id);
             return true;
-        }else throw new NoSuchElementException("driver does not exists");
+        }else throw new NoSuchElementException("driver does not exists "+id);
     }
 }
