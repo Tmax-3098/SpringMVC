@@ -16,30 +16,30 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiError> runtimeExceptionHandler(Exception e){
+    public ResponseEntity<ApiResponse<?>> runtimeExceptionHandler(Exception e){
         ApiError error = ApiError.builder().message(e.getMessage()).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ApiResponse<>(error), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ApiError> noSuchElementExceptionHandler(Exception e){
+    public ResponseEntity<ApiResponse<?>> noSuchElementExceptionHandler(Exception e){
         ApiError error = ApiError.builder().status(HttpStatus.NOT_FOUND).message(e.getMessage()).build();
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse<>(error), HttpStatus.NOT_FOUND);
 
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> resourceNotFoundExceptionHandler(Exception e){
+    public ResponseEntity<ApiResponse<?>> resourceNotFoundExceptionHandler(Exception e){
         ApiError error = ApiError.builder().message(e.getMessage()).status(HttpStatus.NOT_FOUND).build();
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse<>(error), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<ApiResponse<?>> handleArgumentNotValidException(MethodArgumentNotValidException e){
         List<String> errors = e.getBindingResult().getAllErrors().stream().map(error -> error.getDefaultMessage()).toList();
         ApiError error = ApiError.builder().message("input validation error").subErrors(errors).status(HttpStatus.BAD_REQUEST).build();
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse<>(error), HttpStatus.BAD_REQUEST);
     }
 
 
