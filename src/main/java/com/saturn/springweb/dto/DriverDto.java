@@ -1,5 +1,6 @@
 package com.saturn.springweb.dto;
 
+import com.saturn.springweb.annotations.EmployeeRoleValidation;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,8 +27,9 @@ public class DriverDto {
     @Min(value = 14)
     private Integer age;
 
-    @Pattern(regexp = "^(DRIVER|ENGINEER)$", message = "role can be either DRIVER or ENGINEER")
+    //@Pattern(regexp = "^(DRIVER|ENGINEER)$", message = "role can be either DRIVER or ENGINEER")
     @NotBlank
+    @EmployeeRoleValidation
     private String role;
 
     private LocalDate dateOfJoining;
